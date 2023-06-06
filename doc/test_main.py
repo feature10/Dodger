@@ -3,7 +3,7 @@ import pytest
 
 
 # импорт функций из тестируемого модуля
-from main.py import initialize, waitForPlayerToPressKey, playerHasHitBaddie, drawText#, main
+from main import initialize, waitForPlayerToPressKey, playerHasHitBaddie, drawText#, main
 
 # тестирование функции initialize()
 def test_initialize():

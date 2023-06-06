@@ -2,7 +2,7 @@ import pygame
 import random, sys
 #import os
 pygame. init()
-from pygame.locals import *
+#from pygame.locals import *
 
 WINDOWWIDTH = 600
 WINDOWHEIGHT = 600

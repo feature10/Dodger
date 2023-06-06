@@ -1,9 +1,9 @@
 import pygame
 import random, sys
 #import os
-pygame. init()
-#from pygame.locals import *
-import pygame.locals 
+#pygame. init()
+from pygame.locals import *
+#import pygame.locals 
 
 WINDOWWIDTH = 600
 WINDOWHEIGHT = 600
@@ -45,27 +45,27 @@ def drawText(text, font, surface, x, y):
     textrect.topleft = (x, y)
     surface.blit(textobj, textrect)
 
-# set up pygame, the window, and the mouse cursor
+# настраиваем pygame, окно и курсор мыши
 pygame.init()
 mainClock = pygame.time.Clock()
 windowSurface = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 pygame.display.set_caption('Dodger')
 pygame.mouse.set_visible(False)
 
-# set up fonts
+# настраиваем шрифты
 font = pygame.font.SysFont(None, 48)
 #pygame.mixer.init()
-# set up sounds
+# настраиваем звуки
 gameOverSound = pygame.mixer.Sound('gameover.wav')
 pygame.mixer.music.load('background.wav')
 #pygame.mixer.music.set_volume(0.9)
 #pygame.mixer.music.play()
-# set up images
+# настраиваем изображения
 playerImage = pygame.image.load('player.png')
 playerRect = playerImage.get_rect()
 baddieImage = pygame.image.load('baddie.png')
 
-# show the "Start" screen
+# показать экран "Пуск"
 drawText('Dodger', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
 drawText('Press a key to start.', font, windowSurface, (WINDOWWIDTH / 3) - 30, (WINDOWHEIGHT / 3) + 50)
 pygame.display.update()
@@ -74,7 +74,7 @@ waitForPlayerToPressKey()
 topScore = 0
 
 while True:
-    # set up the start of the game
+    # настраиваем начало игры
     baddies = []
     score = 0
     playerRect.topleft = (WINDOWWIDTH / 2, WINDOWHEIGHT - 50)
@@ -83,8 +83,8 @@ while True:
     baddieAddCounter = 0
     pygame.mixer.music.play(-1, 0.0)
 
-    while True:  # the game loop runs while the game part is playing
-        score += 1  #increase score         
+    while True:  # игровой цикл выполняется во время воспроизведения игровой части
+        score += 1  # увеличить счет         
         for event in pygame.event.get():
             if event.type == QUIT:
                 terminate()
@@ -126,9 +126,9 @@ while True:
                 if event.key == K_DOWN or event.key == ord('s'):
                     moveDown = False
             if event.type == MOUSEMOTION:
-                # If the mouse moves, move the player where the cursor is.
+                # Если мышь движется, переместите игрока туда, где находится курсор.
                 playerRect.move_ip(event.pos[0] - playerRect.centerx, event.pos[1] - playerRect.centery)
-        #Add new baddies at the top of the screen, if needed.
+        # Добавляйте новых злодеев вверху экрана, если это необходимо.
         if not reverseCheat and not slowCheat:
             baddieAddCounter += 1
         if baddieAddCounter == ADDNEWBADDIERATE:
@@ -141,7 +141,7 @@ while True:
             
             baddies.append(newBaddie)
             
-        #Move the player around.
+        # Перемещать игрока
         if moveLeft and playerRect.left > 0:
             playerRect.move_ip(-1 * PLAYERMOVERATE, 0)
         if moveRight and playerRect.right < WINDOWWIDTH:
@@ -151,10 +151,10 @@ while True:
         if moveDown and playerRect.bottom < WINDOWHEIGHT:
             playerRect.move_ip(0, PLAYERMOVERATE)
 
-        # Move the mouse cursor to match the player.
+        # Переместите курсор мыши, чтобы соответствовать игроку.
         pygame.mouse.set_pos(playerRect.centerx, playerRect.centery)
 
-        # Move the baddies down.
+        # Перемещение "злодеев" вниз.
         for b in baddies:
             if not reverseCheat and not slowCheat:
                 b['rect'].move_ip(0, b['speed'])
@@ -162,35 +162,35 @@ while True:
                 b['rect'].move_ip(0, -5)
             elif slowCheat:
                 b['rect'].move_ip(0, 1)
-        # Delete baddies that have fallen past the bottom.
+        # Удаление "злодеев", которые упали ниже дна.
         for b in baddies[:]:
             if b['rect'].top > WINDOWHEIGHT:
                 baddies.remove(b)
-        # Draw the game world on the window.
+        # Нарисуйте игровой мир на окне.
         windowSurface.fill(BACKGROUNDCOLOR)
 
-        # Draw the score and top score.
+        # Нарисуйте счет и высший балл.
         drawText('Score: %s' % (score), font, windowSurface, 10, 0)
         drawText('Top Score: %s' % (topScore), font, windowSurface, 10, 40)
         
-        # Draw the player's rectangle
+        # Рисуем прямоугольник игрового персонажа
         windowSurface.blit(playerImage, playerRect)
 
-        # Draw each baddie
+        # Нарисуйте каждого "злодея"
         for b in baddies:
             windowSurface.blit(b['surface'], b['rect'])
 
         pygame.display.update()
 
-        # Check if any of the baddies have hit the player.
+        # Проверьте, не ударил ли кто-нибудь из "злодеев" игрового персонажа.
         if playerHasHitBaddie(playerRect, baddies):
             if score > topScore:
-                topScore = score  # set new top score
+                topScore = score  # установить новый рекорд
             break
 
         mainClock.tick(FPS)
 
-    # Stop the game and show the "Game Over" screen.
+    # Остановить игру и отобразить надпись на  экране «Game Over».
     pygame.mixer.music.stop()
     gameOverSound.play()
 

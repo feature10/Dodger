@@ -1,4 +1,5 @@
-import pygame, random, sys
+import pygame
+import random, sys
 #import os
 pygame. init()
 from pygame.locals import *

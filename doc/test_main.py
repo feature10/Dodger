@@ -1,5 +1,6 @@
 import os
 import pytest
+import pygame
 
 # импорт функций из тестируемого модуля
 from main.py import initialize, waitForPlayerToPressKey, playerHasHitBaddie, drawText, main
